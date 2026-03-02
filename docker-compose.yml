@@ -1,0 +1,16 @@
+services:
+  img-alt-api:
+    build: .
+    container_name: img-alt-api
+    restart: always
+    env_file:
+      - .env
+    networks:
+      - caddy_net # 必须与 Caddy 容器在同一个网络
+    labels:
+      caddy: img-alt.moe.pub
+      caddy.reverse_proxy: "{{upstreams 8000}}"
+
+networks:
+  caddy_net:
+    external: true # 声明这是一个外部已存在的网络
